@@ -10,6 +10,11 @@ module.exports = {
         '3/10': '30%',
         '1/10': '10%',
       },
+      colors: {
+        'primary': {
+          500: '#7A5CFA',
+        }
+      },
     },
   },
   plugins: [],

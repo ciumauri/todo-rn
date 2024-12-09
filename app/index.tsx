@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import apiClient from "../api/apiClient";
 import { useRouter } from "expo-router";
 import Logo from "@/components/logo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Burnt from "burnt";
 
 const LoginScreen: React.FC = () => {
@@ -14,17 +15,14 @@ const LoginScreen: React.FC = () => {
     try {
       const response = await apiClient.post("login/", { email, password });
       console.log("Token recebido:", response.data.access);
+      await AsyncStorage.setItem("token", response.data.access);
       Burnt.toast({
-        title: "Burnt installed.",
-        preset: "done",
-        message: "See your downloads.",
+        title: "Login realizado com sucesso.",
       });
       router.push("/profile");
     } catch (error: any) {
       Burnt.toast({
-        title: "Burnt installed.",
-        preset: "done",
-        message: "See your downloads.",
+        title: "Erro ao logar. Verifique dados informados.",
       });
     }
   };

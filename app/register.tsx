@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ToastAndroid } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import Logo from "@/components/logo";
 import apiClient from "@/api/apiClient";
 import { useRouter } from "expo-router";
+import * as Burnt from "burnt";
 
 const RegisterScreen: React.FC = () => {
   const router = useRouter();
@@ -10,18 +11,18 @@ const RegisterScreen: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      const response = await apiClient.post("register/", { name, email, password });
-      ToastAndroid.show("Registro realizado com sucesso!", ToastAndroid.SHORT);
+      await apiClient.post("register/", { name, email, password });
+      Burnt.toast({
+        title: "Registro realizado com sucesso.",
+      });
       router.push("/");
-    } catch (error: any) {
-      // console.error("Erro no login:", error.response?.data || error.message);
-      ToastAndroid.showWithGravity(
-        "Erro ao registrar. Verifique dados informados.",
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM
-      );
+    }
+    catch (error: any) {
+      Burnt.toast({
+        title: "Erro ao registrar. Verifique dados informados.",
+      });
     }
   };
 
@@ -51,7 +52,7 @@ const RegisterScreen: React.FC = () => {
       />
       <Text className="text-gray-400 text-xs mb-4">Sua senha deve conter entre 4 e 12 caracteres</Text>
       <TouchableOpacity className="bg-primary-500 py-3 rounded-md"
-        onPress={handleLogin}
+        onPress={handleRegister}
       >
         <Text className="text-center text-white font-bold">Registrar-se</Text>
       </TouchableOpacity>

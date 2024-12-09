@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ToastAndroid } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import apiClient from "../api/apiClient";
 import { useRouter } from "expo-router";
 import Logo from "@/components/logo";
+import * as Burnt from "burnt";
 
 const LoginScreen: React.FC = () => {
   const router = useRouter();
@@ -13,15 +14,18 @@ const LoginScreen: React.FC = () => {
     try {
       const response = await apiClient.post("login/", { email, password });
       console.log("Token recebido:", response.data.access);
-      ToastAndroid.show("Login realizado com sucesso!", ToastAndroid.SHORT);
+      Burnt.toast({
+        title: "Burnt installed.",
+        preset: "done",
+        message: "See your downloads.",
+      });
       router.push("/profile");
     } catch (error: any) {
-      // console.error("Erro no login:", error.response?.data || error.message);
-      ToastAndroid.showWithGravity(
-        "Erro no login. Verifique suas credenciais.",
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM
-      );
+      Burnt.toast({
+        title: "Burnt installed.",
+        preset: "done",
+        message: "See your downloads.",
+      });
     }
   };
 
